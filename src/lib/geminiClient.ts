@@ -7,7 +7,7 @@ export type ChatTurn = {
 };
 
 // For hackathon / prototyping only – this will be visible in the browser
-const API_KEY = "AIzaSyA8c1P-Op_tr4Yc7XCdDvwtEkGIk_LzuPQ";
+const API_KEY = "AIzaSyCV4hiFMbSBABfhfuYQiNY4KsCtoaAZnps";
 
 const genAI = new GoogleGenAI({
   apiKey: API_KEY,
