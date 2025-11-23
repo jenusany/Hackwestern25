@@ -130,14 +130,14 @@ const Landing = () => {
         label: "First Home Savings Account (FHSA)",
         icon: <Home className="h-5 w-5" />,
         summary: "A tax advantaged way to build a first home down payment.",
-        blurb: `As someone in "${lifeStageLabel}", this portfolio is important because it combines RRSP-style tax deductions with TFSA-style tax-free withdrawals when used for a first home. If homeownership is in your plans, this can shorten the time to a down payment and make each dollar work harder.`,
+        blurb: `As someone in "${lifeStageLabel}", this portfolio is important because it combines RRSP style tax deductions with TFSA style tax free withdrawals when used for a first home. If homeownership is in your plans, this can shorten the time to a down payment and make each dollar work harder.`,
       },
       {
         key: "rrsp",
         label: "Registered Retirement Savings Plan (RRSP)",
         icon: <LineChart className="h-5 w-5" />,
         summary: "A long-term engine for retirement and financial independence.",
-        blurb: `As someone in "${lifeStageLabel}", this portfolio is important because it supports your future self. Contributions can lower today’s taxes while investments grow tax-deferred. RRSPs are especially powerful as your income rises—even if your career includes breaks for caregiving, education, or travel.`,
+        blurb: `As someone in "${lifeStageLabel}", this portfolio is important because it supports your future self. Contributions can lower today’s taxes while investments grow tax deferred. RRSPs are especially powerful as your income rises even if your career includes breaks for caregiving, education, or travel.`,
       },
       {
         key: "maternity",
@@ -408,6 +408,7 @@ const Landing = () => {
                       >
                         {item.summary}
                       </p>
+
                       <p
                         className={`text-sm leading-relaxed ${
                           textMuted ? "text-muted-foreground" : "text-muted-foreground"
@@ -445,7 +446,21 @@ const Landing = () => {
                           .
                         </p>
                       )}
+
+                      {/* Learn More button */}
+                      <div className="mt-4 flex justify-end">
+                        {["tfsa", "fhsa", "rrsp", "maternity"].includes(item.key) && (
+                          <Button
+                            variant="link"
+                            className="text-primary text-sm px-0"
+                            onClick={() => navigate(`/${item.key}`)}
+                          >
+                            Learn more →
+                          </Button>
+                        )}
+                      </div>
                     </motion.div>
+
                   </motion.div>
                 </motion.div>
               );
