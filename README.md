@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://www.growyourdoughgirl.tech/Landing
+**URL**: https://www.growyourdoughgirl.tech
 
 ## How can I edit this code?
 
