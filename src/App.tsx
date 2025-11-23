@@ -11,6 +11,12 @@ import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
+import TFSA from "@/pages/TFSA";
+import FHSA from "@/pages/FHSA";
+import RRSP from "@/pages/RRSP";
+import Maternity from "@/pages/Maternity";
+import ScrollToTop from "@/components/ScrollToTop";
+
 
 const queryClient = new QueryClient();
 
@@ -21,6 +27,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
