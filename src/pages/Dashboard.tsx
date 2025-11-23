@@ -144,7 +144,7 @@ const Dashboard = () => {
           className="mb-8"
         >
           <h2 className="text-4xl font-bold text-foreground mb-2">
-            Welcome back, {firstName}! 👋
+            Hey, {firstName}! 👋
           </h2>
           <p className="text-lg text-muted-foreground">
             Here's your financial life-stage summary

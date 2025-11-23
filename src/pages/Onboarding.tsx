@@ -393,26 +393,6 @@ const Onboarding = () => {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-border">
-                <p className="text-sm font-medium mb-3 text-foreground">
-                  Which best describes your lifestyle approach?
-                </p>
-                <div className="space-y-3">
-                  {[
-                    "I live in the moment",
-                    "I balance today with the future",
-                    "I prioritize long-term planning",
-                    "I'm not sure"
-                  ].map((option) => (
-                    <OptionButton
-                      key={option}
-                      label={option}
-                      selected={formData.lifestyleValues === option}
-                      onClick={() => handleSelect("lifestyleValues", option)}
-                    />
-                  ))}
-                </div>
-              </div>
             </div>
           </StepCard>
         );
@@ -423,7 +403,7 @@ const Onboarding = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-accent/20 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-purple-200 to-pink-100 py-8 px-4">
       <div className="container max-w-2xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -431,10 +411,10 @@ const Onboarding = () => {
           className="text-center mb-8"
         >
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Sparkles className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">HerFinance</h1>
+            <img src="/logo.png" alt="Logo" className="h-10 w-10" />
+            <h1 className="text-3xl font-extrabold text-purple-700 tracking-wide">EmpowerFinance</h1>
           </div>
-          <p className="text-muted-foreground">Let's personalize your financial journey</p>
+          <p className="text-pink-400 font-medium">Let's personalize your financial journey</p>
         </motion.div>
 
         <ProgressBar currentStep={currentStep} totalSteps={TOTAL_STEPS} />
@@ -446,14 +426,14 @@ const Onboarding = () => {
             <Button
               variant="outline"
               onClick={handleBack}
-              className="flex-1"
+              className="flex-1 bg-white text-purple-600 border border-purple-200"
             >
               Back
             </Button>
           )}
           <Button
             onClick={handleNext}
-            className="flex-1 bg-primary hover:bg-primary/90"
+            className="flex-1 bg-pink-400 hover:bg-pink-500 text-white font-bold rounded-xl"
           >
             {currentStep === TOTAL_STEPS ? "Complete Setup" : "Continue"}
           </Button>
@@ -463,7 +443,7 @@ const Onboarding = () => {
           <div className="text-center mt-4">
             <button
               onClick={() => navigate("/dashboard")}
-              className="text-sm text-muted-foreground hover:text-foreground"
+              className="text-sm text-purple-400 hover:text-pink-500"
             >
               Skip for now
             </button>

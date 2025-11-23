@@ -9,6 +9,7 @@ import Auth from "./pages/Auth";
 import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
+import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
 import TFSA from "@/pages/TFSA";
 import FHSA from "@/pages/FHSA";
@@ -33,11 +34,7 @@ const App = () => (
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/tfsa" element={<TFSA />} />
-            <Route path="/rrsp" element={<RRSP />} />
-            <Route path="/fhsa" element={<FHSA />} />
-            <Route path="/maternity" element={<Maternity />} />
-
+            <Route path="/portfolio" element={<Portfolio />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
