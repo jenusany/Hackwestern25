@@ -12,13 +12,16 @@ import {
   LineChart,
   Baby,
   MessageCircle,
+  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db, auth } from "@/lib/firebase";
+import { signOut } from "firebase/auth";
 import { UserProfile } from "@/types/onboarding";
 import AdvisorChat from "@/components/AdvisorChat";
+import { toast } from "sonner";
 
 type PortfolioKey = "emergencyFund" | "tfsa" | "fhsa" | "rrsp" | "maternity";
 
@@ -137,7 +140,7 @@ const Landing = () => {
         label: "Registered Retirement Savings Plan (RRSP)",
         icon: <LineChart className="h-5 w-5" />,
         summary: "A long-term engine for retirement and financial independence.",
-        blurb: `As someone in "${lifeStageLabel}", this portfolio is important because it supports your future self. Contributions can lower today’s taxes while investments grow tax deferred. RRSPs are especially powerful as your income rises even if your career includes breaks for caregiving, education, or travel.`,
+        blurb: `As someone in "${lifeStageLabel}", this portfolio is important because it supports your future self. Contributions can lower today's taxes while investments grow tax deferred. RRSPs are especially powerful as your income rises even if your career includes breaks for caregiving, education, or travel.`,
       },
       {
         key: "maternity",
@@ -257,6 +260,17 @@ const Landing = () => {
     setIsChatFullscreen(false);
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      toast.success("Logged out successfully");
+      navigate("/");
+    } catch (error) {
+      console.error("Failed to log out:", error);
+      toast.error("Failed to log out. Please try again.");
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/20 to-accent/20">
@@ -284,6 +298,10 @@ const Landing = () => {
           <div className="flex gap-2">
             <Button onClick={() => navigate("/onboarding")} variant="ghost">
               Edit profile
+            </Button>
+            <Button onClick={handleLogout} variant="ghost" className="gap-2">
+              <LogOut className="h-4 w-4" />
+              Log out
             </Button>
           </div>
         </div>
