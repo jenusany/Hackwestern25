@@ -191,25 +191,40 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-accent/20">
       {/* Header */}
-      <header className="w-full border-b border-border/50 bg-card/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">
-              EmpowerFinance
-            </h1>
-          </div>
+        <header className="w-full border-b border-border/50 bg-card/50 backdrop-blur-sm">
+          <div className="container mx-auto px-4 py-6 flex justify-between items-center">
+            
+            {/* Clickable Logo */}
+            <div
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={() => navigate("/")}
+            >
+              <Sparkles className="h-8 w-8 text-primary" />
+              <h1 className="text-2xl font-bold text-foreground">
+                GrowYourDoughGirl
+              </h1>
+            </div>
 
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => navigate("/dashboard")}>
-              Dashboard
-            </Button>
-            <Button variant="ghost" onClick={() => navigate("/onboarding")}>
-              Edit profile
-            </Button>
+            {/* Right-side Buttons */}
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => navigate("/dashboard")}
+                className="border-primary/50"
+              >
+                Dashboard
+              </Button>
+
+              <Button
+                onClick={() => navigate("/onboarding")}
+                variant="ghost"
+              >
+                Edit profile
+              </Button>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
+
 
       {/* Main */}
       <main className="container mx-auto px-4 py-10">
