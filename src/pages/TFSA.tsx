@@ -22,8 +22,8 @@ const TFSA = () => {
           </div>
 
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => navigate("/dashboard")}>
-              Dashboard
+            <Button variant="outline" onClick={() => navigate("/Landing")}>
+              Landing
             </Button>
             <Button variant="ghost" onClick={() => navigate("/onboarding")}>
               Edit profile

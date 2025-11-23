@@ -89,11 +89,11 @@ const Settings = () => {
       <div className="container max-w-2xl mx-auto py-8">
         <Button
           variant="ghost"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/Landing")}
           className="mb-6"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Dashboard
+          Back to Landing
         </Button>
 
         <motion.div
