@@ -141,7 +141,7 @@ const TFSA = () => {
           </ol>
 
           <div className="mt-6 flex justify-end gap-3">
-            <Button variant="outline" onClick={() => navigate("/portfolio")}>
+            <Button variant="outline" onClick={() => navigate("/Portfolio")}>
               View portfolio
             </Button>
             <Button onClick={() => navigate("/")}>Back to timeline</Button>

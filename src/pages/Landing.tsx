@@ -474,7 +474,7 @@ const Landing = () => {
                 Timeline view
               </button>
               <button
-                onClick={() => navigate("/portfolio")}
+                onClick={() => navigate("/Portfolio")}
                 className="px-4 py-1 text-sm text-muted-foreground hover:bg-background/70 rounded-full"
               >
                 Portfolio view
