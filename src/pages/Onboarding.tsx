@@ -69,7 +69,7 @@ const Onboarding = () => {
       });
 
       toast.success("Profile setup complete!");
-      navigate("/dashboard");
+      navigate("/Landing");
     } catch (error) {
       toast.error("Failed to save profile");
     }
@@ -442,7 +442,7 @@ const Onboarding = () => {
         {currentStep < TOTAL_STEPS && (
           <div className="text-center mt-4">
             <button
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate("/Landing")}
               className="text-sm text-purple-400 hover:text-pink-500"
             >
               Skip for now
