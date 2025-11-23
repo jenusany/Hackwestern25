@@ -5,7 +5,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Sparkles,
+  DollarSign,
   Home,
   PiggyBank,
   Shield,
@@ -275,20 +275,13 @@ const Landing = () => {
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => navigate("/")}
           >
-            <Sparkles className="h-8 w-8 text-primary" />
+            <DollarSign className="h-8 w-8 text-primary" />
             <h1 className="text-2xl font-bold text-foreground">
               GrowYourDoughGirl
             </h1>
           </div>
 
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={() => navigate("/dashboard")}
-              className="border-primary/50"
-            >
-              Dashboard
-            </Button>
             <Button onClick={() => navigate("/onboarding")} variant="ghost">
               Edit profile
             </Button>
@@ -517,7 +510,7 @@ const Landing = () => {
               {/* Header */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-border/60 bg-card/90 backdrop-blur-sm">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-primary" />
+                  <DollarSign className="h-5 w-5 text-primary" />
                   <span className="text-sm font-semibold text-foreground">
                     Money advisor chat
                   </span>

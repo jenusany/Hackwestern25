@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { DollarSign } from "lucide-react";
 
 const Auth = () => {
   const [searchParams] = useSearchParams();
@@ -56,7 +56,7 @@ const Auth = () => {
       >
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="h-10 w-10 text-primary" />
+            <DollarSign className="h-10 w-10 text-primary" />
             <h1 className="text-3xl font-bold text-foreground">EmpowerFinance</h1>
           </div>
           <p className="text-muted-foreground">Your financial journey starts here</p>
