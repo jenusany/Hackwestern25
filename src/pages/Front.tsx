@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Sparkles, TrendingUp, Heart, Shield } from "lucide-react";
+import { DollarSign, TrendingUp, Heart, Shield } from "lucide-react";
 
 const Front = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Front = () => {
           animate={{ opacity: 1, x: 0 }}
           className="flex items-center gap-2"
         >
-          <Sparkles className="h-8 w-8 text-primary" />
+          <DollarSign className="h-8 w-8 text-primary" />
           <h1 className="text-2xl font-bold text-foreground">GrowYourDoughGirl</h1>
         </motion.div>
         <Button 

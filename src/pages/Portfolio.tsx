@@ -446,7 +446,7 @@ const Portfolio = () => {
     <div className="min-h-screen py-8 px-4">
       <div className="container max-w-2xl mx-auto">
         <div className="mb-4">
-          <Button variant="outline" size="sm" onClick={() => navigate("/dashboard")}>← Go Back</Button>
+          <Button variant="outline" size="sm" onClick={() => navigate("/Landing")}>← Home</Button>
         </div>
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-2">

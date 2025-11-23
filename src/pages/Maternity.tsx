@@ -1,6 +1,6 @@
 // src/pages/Maternity.tsx
 import { useState } from "react";
-import { Sparkles, Baby, Calculator } from "lucide-react";
+import { DollarSign, Baby, Calculator } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -56,7 +56,7 @@ const Maternity = () => {
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => navigate("/")}
           >
-            <Sparkles className="h-8 w-8 text-primary" />
+            <DollarSign className="h-8 w-8 text-primary" />
             <h1 className="text-2xl font-bold text-foreground">
               GrowYourDoughGirl
             </h1>
@@ -288,7 +288,7 @@ const Maternity = () => {
             <Button variant="outline" onClick={() => navigate("/Portfolio")}>
               View portfolio
             </Button>
-            <Button onClick={() => navigate("/")}>Back to timeline</Button>
+            <Button onClick={() => navigate("/Landing")}>Back to timeline</Button>
           </div>
         </section>
       </main>
