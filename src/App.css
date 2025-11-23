@@ -1,21 +1,28 @@
+/* Main container uses soft purple gradient */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background: linear-gradient(135deg, #f3e8ff 0%, #fbcfe8 100%);
 }
 
+/* Feminine purple logo styling */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
+  border-radius: 1.5em;
+  background: linear-gradient(135deg, #f3e8ff 0%, #fbcfe8 100%);
+  box-shadow: 0 2px 16px 0 #c4b5fd44;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #a78bfa);
+  background: linear-gradient(135deg, #fbcfe8 0%, #f3e8ff 100%);
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em #f472b6);
 }
 
 @keyframes logo-spin {
@@ -35,8 +42,16 @@
 
 .card {
   padding: 2em;
+  background: linear-gradient(135deg, #ede9fe 0%, #fbcfe8 100%);
+  border-radius: 1.5em;
+  box-shadow: 0 2px 16px 0 #c4b5fd44;
+  border: 1px solid #a78bfa;
 }
 
 .read-the-docs {
-  color: #888;
+  color: #a78bfa;
+  font-weight: 500;
+  background: #f3e8ff;
+  border-radius: 0.5em;
+  padding: 0.5em 1em;
 }

@@ -8,103 +8,93 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Soft feminine palette - warm and welcoming */
-    --background: 30 40% 98%;
-    --foreground: 330 15% 25%;
+    /* Vibrant purple feminine palette */
+    --background: 270 100% 98%; /* lavender */
+    --foreground: 270 60% 30%; /* deep purple */
 
-    --card: 0 0% 100%;
-    --card-foreground: 330 15% 25%;
+    --card: 270 100% 99%;
+    --card-foreground: 270 60% 30%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 330 15% 25%;
+    --popover: 270 100% 99%;
+    --popover-foreground: 270 60% 30%;
 
-    /* Soft blush pink primary */
-    --primary: 340 75% 75%;
+    /* Primary: rich purple */
+    --primary: 270 80% 70%;
     --primary-foreground: 0 0% 100%;
-    
-    /* Warm mauve secondary */
-    --secondary: 300 25% 85%;
-    --secondary-foreground: 330 15% 25%;
 
-    /* Soft cream muted */
-    --muted: 30 30% 94%;
-    --muted-foreground: 330 10% 50%;
+    /* Secondary: soft pink */
+    --secondary: 320 80% 90%;
+    --secondary-foreground: 270 60% 30%;
 
-    /* Warm peach accent */
-    --accent: 20 85% 80%;
-    --accent-foreground: 330 15% 25%;
+    /* Muted: pale purple */
+    --muted: 270 40% 96%;
+    --muted-foreground: 270 30% 50%;
+
+    /* Accent: pink-purple */
+    --accent: 300 80% 85%;
+    --accent-foreground: 270 60% 30%;
 
     --destructive: 0 70% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 340 30% 90%;
-    --input: 340 30% 90%;
-    --ring: 340 75% 75%;
+    --border: 270 40% 90%;
+    --input: 270 40% 90%;
+    --ring: 270 80% 70%;
 
     --radius: 1.25rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
+    --sidebar-background: 270 100% 98%;
+    --sidebar-foreground: 270 60% 30%;
+    --sidebar-primary: 270 80% 70%;
     --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 300 80% 85%;
+    --sidebar-accent-foreground: 270 60% 30%;
+    --sidebar-border: 270 40% 90%;
+    --sidebar-ring: 270 80% 70%;
   }
 
   .dark {
-    --background: 330 20% 12%;
-    --foreground: 30 40% 95%;
+    --background: 270 40% 12%;
+    --foreground: 300 40% 95%;
 
-    --card: 330 20% 15%;
-    --card-foreground: 30 40% 95%;
+    --card: 270 40% 15%;
+    --card-foreground: 300 40% 95%;
 
-    --popover: 330 20% 15%;
-    --popover-foreground: 30 40% 95%;
+    --popover: 270 40% 15%;
+    --popover-foreground: 300 40% 95%;
 
-    --primary: 340 70% 65%;
+    --primary: 270 80% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 300 20% 25%;
-    --secondary-foreground: 30 40% 95%;
+    --secondary: 320 40% 25%;
+    --secondary-foreground: 300 40% 95%;
 
-    --muted: 330 15% 20%;
-    --muted-foreground: 30 20% 70%;
+    --muted: 270 20% 20%;
+    --muted-foreground: 300 20% 70%;
 
-    --accent: 20 75% 70%;
-    --accent-foreground: 330 20% 12%;
+    --accent: 300 60% 40%;
+    --accent-foreground: 270 40% 12%;
 
     --destructive: 0 60% 50%;
-    --destructive-foreground: 30 40% 95%;
+    --destructive-foreground: 300 40% 95%;
 
-    --border: 330 15% 25%;
-    --input: 330 15% 25%;
-    --ring: 340 70% 65%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 270 20% 25%;
+    --input: 270 20% 25%;
+    --ring: 270 80% 60%;
+    --sidebar-background: 270 40% 12%;
+    --sidebar-foreground: 300 40% 95%;
+    --sidebar-primary: 270 80% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+    --sidebar-accent: 300 60% 40%;
+    --sidebar-accent-foreground: 300 40% 95%;
+    --sidebar-border: 270 20% 25%;
+    --sidebar-ring: 270 80% 60%;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+
 
   body {
-    @apply bg-background text-foreground;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 }
