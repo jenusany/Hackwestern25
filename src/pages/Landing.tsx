@@ -1,5 +1,6 @@
 // src/pages/Landing.tsx
-// Added slower, smoother hover grow-in animation for timeline items
+// Money timeline with statuses + Gemini advisor chat
+import type { ReactNode } from "react";
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -24,9 +25,16 @@ type PortfolioKey = "emergencyFund" | "tfsa" | "fhsa" | "rrsp" | "maternity";
 interface TimelineItem {
   key: PortfolioKey;
   label: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   summary: string;
   blurb: string;
+}
+
+type ItemStatusKind = "default" | "ineligible" | "not_applicable" | "later";
+
+interface ItemStatus {
+  label: string | null;
+  kind: ItemStatusKind;
 }
 
 const Landing = () => {
@@ -149,31 +157,100 @@ const Landing = () => {
     return map;
   }, [timelineItemsBase]);
 
+  // Determine ordering based on relevance, but always include all items
   const timelineOrder: PortfolioKey[] = useMemo(() => {
-    const order: PortfolioKey[] = ["emergencyFund", "tfsa"];
-    let remaining: PortfolioKey[] = ["fhsa", "rrsp"];
-    if (familyRelated) remaining.push("maternity");
+    const base: PortfolioKey[] = ["emergencyFund", "tfsa", "fhsa", "rrsp", "maternity"];
 
     const relevanceScore: Record<PortfolioKey, number> = {
-      emergencyFund: 0,
-      tfsa: 0,
+      emergencyFund: 3,
+      tfsa: 2,
       fhsa: fhsaRelevant ? 2 : 0,
-      rrsp: rrspRelevant ? 2 : 0,
+      rrsp: rrspRelevant ? 2 : 1,
       maternity: maternityRelevant ? 2 : 0,
     };
 
-    remaining.sort((a, b) => relevanceScore[b] - relevanceScore[a]);
-    order.push(...remaining);
+    return [...base].sort((a, b) => relevanceScore[b] - relevanceScore[a]);
+  }, [fhsaRelevant, rrspRelevant, maternityRelevant]);
 
-    return order;
-  }, [fhsaRelevant, rrspRelevant, maternityRelevant, familyRelated]);
-
-  const sortedTimelineItems = timelineOrder.map((key) => itemsByKey.get(key)!);
+  const sortedTimelineItems = timelineOrder
+    .map((key) => itemsByKey.get(key)!)
+    .filter(Boolean);
 
   const firstName =
     profile?.onboardingData?.firstName ||
     profile?.displayName?.split(" ")[0] ||
     "there";
+
+  const getItemStatus = (key: PortfolioKey): ItemStatus => {
+    switch (key) {
+      case "fhsa": {
+        if (alreadyOwnsHome) {
+          return {
+            label: "Ineligible (already own a home)",
+            kind: "ineligible",
+          };
+        }
+        if (housingMilestone === "No") {
+          return {
+            label: "Optional (no home goal right now)",
+            kind: "not_applicable",
+          };
+        }
+        if (!wantsHomeSoon && !wantsHomeEventually) {
+          return {
+            label: "Optional",
+            kind: "not_applicable",
+          };
+        }
+        return { label: null, kind: "default" };
+      }
+      case "maternity": {
+        if (planningChildren === "Not planning") {
+          return {
+            label: "Not applicable (not planning children)",
+            kind: "not_applicable",
+          };
+        }
+        if (!familyRelated) {
+          return {
+            label: "Optional / future-only",
+            kind: "later",
+          };
+        }
+        return { label: null, kind: "default" };
+      }
+      case "emergencyFund": {
+        if (emergencySavings === "Yes, fully built") {
+          return {
+            label: "Built",
+            kind: "default",
+          };
+        }
+        return { label: null, kind: "default" };
+      }
+      case "tfsa": {
+        if (!emergencyBuilt) {
+          return {
+            label: "Later (after emergency fund)",
+            kind: "later",
+          };
+        }
+        return { label: null, kind: "default" };
+      }
+      case "rrsp": {
+        const stage = profile?.onboardingData?.lifeStage;
+        if (!rrspRelevant && (stage === "In school" || stage === "Early in my career")) {
+          return {
+            label: "Later focus",
+            kind: "later",
+          };
+        }
+        return { label: null, kind: "default" };
+      }
+      default:
+        return { label: null, kind: "default" };
+    }
+  };
 
   const closeChat = () => {
     setIsChatOpen(false);
@@ -191,40 +268,33 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-accent/20">
       {/* Header */}
-        <header className="w-full border-b border-border/50 bg-card/50 backdrop-blur-sm">
-          <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-            
-            {/* Clickable Logo */}
-            <div
-              className="flex items-center gap-2 cursor-pointer"
-              onClick={() => navigate("/")}
-            >
-              <Sparkles className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-foreground">
-                GrowYourDoughGirl
-              </h1>
-            </div>
-
-            {/* Right-side Buttons */}
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={() => navigate("/dashboard")}
-                className="border-primary/50"
-              >
-                Dashboard
-              </Button>
-
-              <Button
-                onClick={() => navigate("/onboarding")}
-                variant="ghost"
-              >
-                Edit profile
-              </Button>
-            </div>
+      <header className="w-full border-b border-border/50 bg-card/50 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-6 flex justify-between items-center">
+          {/* Clickable logo */}
+          <div
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => navigate("/")}
+          >
+            <Sparkles className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-bold text-foreground">
+              GrowYourDoughGirl
+            </h1>
           </div>
-        </header>
 
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => navigate("/dashboard")}
+              className="border-primary/50"
+            >
+              Dashboard
+            </Button>
+            <Button onClick={() => navigate("/onboarding")} variant="ghost">
+              Edit profile
+            </Button>
+          </div>
+        </div>
+      </header>
 
       {/* Main */}
       <main className="container mx-auto px-4 py-10">
@@ -241,98 +311,145 @@ const Landing = () => {
             <p className="text-muted-foreground max-w-2xl">
               This is the suggested order to think about your core portfolios.
               Hover over each step to see why it matters for your life stage.
+              Some items might be marked as ineligible or not applicable based on
+              your answers.
             </p>
           </div>
 
           {/* Timeline */}
           <div className="relative border-l border-border/40 pl-6 space-y-8">
-            {sortedTimelineItems.map((item, idx) => (
-              <motion.div
-                key={item.key}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4 }}
-                className="relative group"
-              >
-                {/* Dot */}
-                <div className="absolute -left-[13px] top-4 h-6 w-6 rounded-full border-2 border-primary bg-background flex items-center justify-center">
-                  <div className="h-3 w-3 rounded-full bg-primary transition-transform duration-500 group-hover:scale-125" />
-                </div>
+            {sortedTimelineItems.map((item, idx) => {
+              const status = getItemStatus(item.key);
 
-                {/* Card with shared variants for scale + description */}
+              const cardStatusClasses: string =
+                status.kind === "ineligible"
+                  ? "bg-muted/70 border-dashed opacity-80"
+                  : status.kind === "not_applicable"
+                  ? "bg-muted/60 opacity-75"
+                  : status.kind === "later"
+                  ? "bg-card/80"
+                  : "bg-card";
+
+              const textMuted =
+                status.kind === "ineligible" || status.kind === "not_applicable";
+
+              return (
                 <motion.div
-                  className="rounded-2xl bg-card shadow-sm border border-border/60 p-4 md:p-5 cursor-default transition-all duration-500 ease-in-out"
-                  variants={{
-                    rest: { scale: 1 },
-                    hover: { scale: 1.03 },
-                  }}
-                  initial="rest"
-                  animate="rest"
-                  whileHover="hover"
+                  key={item.key}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                  className="relative group"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground">
-                        {idx + 1}. {item.label}
-                      </h3>
-                      <p className="text-xs text-muted-foreground">
-                        Hover to see why this comes here in your journey.
-                      </p>
-                    </div>
+                  {/* Dot */}
+                  <div className="absolute -left-[13px] top-4 h-6 w-6 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                    <div className="h-3 w-3 rounded-full bg-primary transition-transform duration-500 group-hover:scale-125" />
                   </div>
 
-                  {/* Description that expands on hover */}
+                  {/* Card with hover + status */}
                   <motion.div
+                    className={`rounded-2xl shadow-sm border border-border/60 p-4 md:p-5 cursor-default transition-all duration-500 ease-in-out ${cardStatusClasses}`}
                     variants={{
-                      rest: { height: 0, opacity: 0 },
-                      hover: { height: "auto", opacity: 1 },
+                      rest: { scale: 1 },
+                      hover: { scale: 1.03 },
                     }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="mt-4 overflow-hidden"
+                    initial="rest"
+                    animate="rest"
+                    whileHover="hover"
                   >
-                    <p className="text-sm font-medium text-foreground mb-1">
-                      {item.summary}
-                    </p>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {item.blurb}
-                    </p>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                          {item.icon}
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground">
+                            {idx + 1}. {item.label}
+                          </h3>
+                          <p className="text-xs text-muted-foreground">
+                            Hover to see why this comes here in your journey.
+                          </p>
+                        </div>
+                      </div>
 
-                    {item.key === "fhsa" && (
-                      <p className="mt-3 text-xs text-muted-foreground">
-                        Your housing plan:{" "}
-                        <span className="font-medium">
-                          {housingMilestone || "Not specified"}
+                      {status.label && (
+                        <span
+                          className={`text-[11px] px-2 py-1 rounded-full border ${
+                            status.label === "Built"
+                              ? "border-green-600 text-green-700 bg-green-50"
+                              : status.kind === "ineligible"
+                              ? "border-destructive/60 text-destructive"
+                              : status.kind === "not_applicable"
+                              ? "border-muted-foreground/40 text-muted-foreground"
+                              : status.kind === "later"
+                              ? "border-amber-500/60 text-amber-600"
+                              : "border-primary/50 text-primary"
+                          }`}
+                        >
+                          {status.label}
                         </span>
-                        .
-                      </p>
-                    )}
+                      )}
 
-                    {item.key === "maternity" && (
-                      <p className="mt-3 text-xs text-muted-foreground">
-                        Your family plan:{" "}
-                        <span className="font-medium">
-                          {planningChildren || "Not specified"}
-                        </span>
-                        .
-                      </p>
-                    )}
+                    </div>
 
-                    {item.key === "emergencyFund" && (
-                      <p className="mt-3 text-xs text-muted-foreground">
-                        Emergency fund status:{" "}
-                        <span className="font-medium">
-                          {emergencySavings || "Not specified"}
-                        </span>
-                        .
+                    {/* Description that expands on hover */}
+                    <motion.div
+                      variants={{
+                        rest: { height: 0, opacity: 0 },
+                        hover: { height: "auto", opacity: 1 },
+                      }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="mt-4 overflow-hidden"
+                    >
+                      <p
+                        className={`text-sm font-medium mb-1 ${
+                          textMuted ? "text-muted-foreground" : "text-foreground"
+                        }`}
+                      >
+                        {item.summary}
                       </p>
-                    )}
+                      <p
+                        className={`text-sm leading-relaxed ${
+                          textMuted ? "text-muted-foreground" : "text-muted-foreground"
+                        }`}
+                      >
+                        {item.blurb}
+                      </p>
+
+                      {item.key === "fhsa" && (
+                        <p className="mt-3 text-xs text-muted-foreground">
+                          Your housing plan:{" "}
+                          <span className="font-medium">
+                            {housingMilestone || "Not specified"}
+                          </span>
+                          .
+                        </p>
+                      )}
+
+                      {item.key === "maternity" && (
+                        <p className="mt-3 text-xs text-muted-foreground">
+                          Your family plan:{" "}
+                          <span className="font-medium">
+                            {planningChildren || "Not specified"}
+                          </span>
+                          .
+                        </p>
+                      )}
+
+                      {item.key === "emergencyFund" && (
+                        <p className="mt-3 text-xs text-muted-foreground">
+                          Emergency fund status:{" "}
+                          <span className="font-medium">
+                            {emergencySavings || "Not specified"}
+                          </span>
+                          .
+                        </p>
+                      )}
+                    </motion.div>
                   </motion.div>
                 </motion.div>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Toggle buttons */}
@@ -361,14 +478,11 @@ const Landing = () => {
         <MessageCircle className="h-6 w-6" />
       </button>
 
-      {/* Chat Modal anchored bottom-right, with fullscreen toggle */}
+      {/* Chat Modal with fullscreen toggle */}
       {isChatOpen && (
         <div className="fixed inset-0 z-50 flex items-end justify-end">
           {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={closeChat}
-          />
+          <div className="absolute inset-0 bg-black/40" onClick={closeChat} />
 
           {/* Responsive Chat Panel */}
           <div
