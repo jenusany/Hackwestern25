@@ -110,7 +110,7 @@ const Dashboard = () => {
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate("/Landing")}
                   className="hidden sm:inline-flex"
                 >
                   Home
